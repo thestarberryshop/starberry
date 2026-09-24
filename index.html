@@ -146,59 +146,89 @@ section{padding-block:26px 6px;}
 .copied{color:var(--leaf-deep);font-weight:700;font-size:.95rem;}
 
 /* character sheet overlay */
-.sheet{position:fixed;inset:0;background:rgba(125,74,85,.45);z-index:20;display:none;overflow-y:auto;padding:20px 16px;}
+.sheet{position:fixed;inset:0;background:rgba(125,74,85,.5);z-index:20;display:none;overflow-y:auto;padding:24px 16px;}
 .sheet.open{display:block;}
 .sheet-card{
-  max-width:640px;margin:0 auto;background:var(--card);border-radius:26px;overflow:hidden;
-  box-shadow:0 18px 50px rgba(90,40,55,.35);
+  --acc:#e05585;
+  max-width:780px;margin:0 auto;background:var(--card);border-radius:10px;
+  padding:10px;box-shadow:0 18px 50px rgba(90,40,55,.35);position:relative;
+  scrollbar-color:var(--acc) rgba(0,0,0,0);
 }
-.sheet-banner{display:flex;align-items:center;gap:16px;padding:20px 22px;color:#fff;position:relative;}
-.sheet-banner .big-ic{
-  width:86px;height:86px;flex:none;background:#fff;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-size:2.2rem;
-}
-.sheet-banner .big-ic img{width:62px;height:62px;object-fit:contain;}
-.sheet-banner h2{font-family:"Chewy",cursive;font-weight:400;font-size:1.7rem;margin:0;line-height:1.1;}
-.sheet-banner .kind{font-family:"Gochi Hand",cursive;font-size:1.05rem;opacity:.9;}
-.sheet-banner .bigmark{position:absolute;right:8px;top:2px;font-size:4rem;opacity:.16;pointer-events:none;}
 .sheet-close{
-  position:sticky;top:0;float:right;margin:10px 10px 0 0;border:none;background:#fff;color:var(--straw-deep);
-  width:38px;height:38px;border-radius:50%;font-size:1.3rem;font-weight:800;cursor:pointer;z-index:2;
-  box-shadow:0 2px 8px rgba(90,40,55,.25);
+  position:absolute;top:-12px;right:-8px;border:none;background:#fff;color:var(--ink);
+  width:36px;height:36px;border-radius:50%;font-size:1.25rem;font-weight:800;cursor:pointer;z-index:3;
+  box-shadow:0 2px 8px rgba(90,40,55,.3);
 }
-.sheet-body{padding:18px 22px 24px;}
-.sheet-body .magic{
-  background:var(--blush);border-radius:16px;padding:16px 18px;font-family:"Gochi Hand",cursive;
-  font-size:1.22rem;color:var(--straw-deep);
+.sh-grid{display:grid;grid-template-columns:1fr 236px;gap:10px;}
+.sh-main{display:flex;flex-direction:column;gap:10px;min-width:0;}
+.sh-side{display:flex;flex-direction:column;gap:10px;min-width:0;}
+
+/* banner: square image + accent info block, card-in-card */
+.sh-banner{background:#fff;border:1px solid #f0dbe4;border-radius:8px;padding:4px;}
+.sh-banner-in{display:flex;border-radius:5px;overflow:hidden;min-height:112px;}
+.sh-imgbox{width:112px;flex:none;background:var(--blush);display:flex;align-items:center;justify-content:center;}
+.sh-imgbox img{width:76px;height:76px;object-fit:contain;}
+.sh-imgbox .spark{font-size:2.4rem;color:var(--acc);}
+.sh-info{flex:1;background:var(--acc);color:#fff;padding:14px 16px;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;min-width:0;}
+.sh-info h2{font-family:"Chewy",cursive;font-weight:400;font-size:1.65rem;margin:0;line-height:1.05;text-transform:lowercase;letter-spacing:1px;}
+.sh-info .meta{font-size:.82rem;text-transform:lowercase;opacity:.92;margin-top:4px;}
+.sh-info .meta .sep{margin:0 7px;font-size:.7rem;}
+.sh-info .bigmark{position:absolute;right:-6px;top:-14px;font-size:5rem;opacity:.16;pointer-events:none;line-height:1;}
+
+/* panels: faded blocks inside white cards */
+.sh-card{background:#fff;border:1px solid #f0dbe4;border-radius:8px;padding:4px;}
+.sh-panel{background:#faeef3;border-radius:5px;padding:14px 16px;}
+.sh-scroll{height:238px;overflow-y:auto;scrollbar-width:thin;padding-right:6px;}
+.sh-h{display:flex;justify-content:space-between;align-items:baseline;text-transform:uppercase;
+  letter-spacing:1.5px;font-size:.76rem;font-weight:800;color:var(--acc);margin:0 0 8px;}
+.sh-h .glyph{opacity:.75;letter-spacing:0;}
+.sh-panel hr{border:none;border-top:1px solid #eed3de;margin:12px 0;}
+.sh-magic{font-family:"Gochi Hand",cursive;font-size:1.18rem;color:var(--ink);line-height:1.45;}
+.sh-panel ul{list-style:none;margin:0;padding:0;}
+.sh-panel ul li{padding-left:18px;position:relative;margin-top:6px;font-size:.9rem;color:var(--ink-soft);}
+.sh-panel ul li::before{content:"▸";position:absolute;left:0;color:var(--acc);font-size:.85rem;}
+
+/* status rows + stacked buttons */
+.sh-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:.9rem;color:var(--ink);}
+.sh-row .val{text-transform:uppercase;font-weight:800;color:var(--acc);font-size:.82rem;letter-spacing:.5px;text-align:right;}
+.sh-row + hr{margin:8px 0 !important;}
+.sh-btn{display:block;width:100%;box-sizing:border-box;border:none;border-radius:4px;background:var(--acc);
+  color:#fff;text-transform:uppercase;font-weight:800;font-size:.8rem;letter-spacing:1px;
+  padding:10px;margin-top:8px;cursor:pointer;font-family:inherit;}
+.sh-btn:hover{filter:brightness(1.08);}
+.sh-btn.ghost{background:#fff;color:var(--acc);border:2px solid var(--acc);}
+.sh-btn:focus-visible,.sheet-close:focus-visible,.sh-tile:focus-visible{outline:3px solid var(--butter);outline-offset:2px;}
+
+/* featured tiles 2x2 */
+.sh-tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.sh-tile{aspect-ratio:1;background:#fff;border:1px solid #f0dbe4;border-radius:8px;padding:4px;
+  text-decoration:none;display:block;}
+.sh-tile-in{width:100%;height:100%;border-radius:5px;background:var(--blush);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:6px;padding:6px;box-sizing:border-box;text-align:center;}
+.sh-tile img{width:44px;height:44px;object-fit:contain;}
+.sh-tile .spark2{font-size:1.7rem;color:var(--acc);line-height:1;}
+.sh-tile .nm{font-size:.72rem;font-weight:800;color:var(--ink);text-transform:lowercase;letter-spacing:.3px;}
+.sh-tile:hover .sh-tile-in{background:#f6d8e6;}
+
+/* stones chips */
+.sh-stones{display:flex;flex-wrap:wrap;gap:6px;}
+.sh-stones span{background:#fff;border:1px solid #e5d8bf;color:var(--leaf-deep);border-radius:4px;
+  padding:3px 9px;font-size:.78rem;font-weight:700;text-transform:lowercase;}
+
+/* gem pal certificate mode */
+.cert .sheet-card{border:5px double var(--acc);}
+.cert-ribbon{text-align:center;font-family:"Gochi Hand",cursive;color:var(--acc);font-size:1.02rem;
+  letter-spacing:1px;text-transform:lowercase;padding:2px 0 8px;}
+
+@media (max-width:640px){
+  .sh-grid{grid-template-columns:1fr;}
+  .sh-scroll{height:auto;max-height:260px;}
+  .sheet{padding:14px 10px;}
 }
-.sheet-body h4{
-  text-transform:lowercase;letter-spacing:.5px;font-size:.95rem;margin:20px 0 8px;
-  color:var(--leaf-deep);font-weight:700;
-}
-.sheet-body ul{list-style:none;margin:0;padding:0;}
-.sheet-body ul li{padding-left:22px;position:relative;margin-top:6px;font-size:.95rem;color:var(--ink-soft);}
-.sheet-body ul li::before{content:"✦";position:absolute;left:0;color:var(--straw);}
-.sheet-stones{display:flex;flex-wrap:wrap;gap:7px;}
-.sheet-stones span{background:#f1f3e2;color:var(--leaf-deep);border-radius:999px;padding:4px 12px;font-size:.85rem;font-weight:700;}
-.pals-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-.pals-grid a{
-  background:var(--blush);border-radius:14px;padding:10px 4px;text-align:center;text-decoration:none;color:var(--ink);
-  display:flex;flex-direction:column;align-items:center;gap:5px;font-size:.78rem;font-weight:700;
-}
-.pals-grid a img{width:38px;height:38px;object-fit:contain;}
-.pals-grid a .spark2{font-size:1.4rem;color:var(--straw-deep);}
-.sheet-actions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap;}
-.sheet-actions button{
-  border:none;border-radius:999px;padding:11px 22px;font:inherit;font-weight:700;cursor:pointer;
-  background:var(--straw-deep);color:#fff;font-size:.98rem;
-}
-.sheet-actions button.ghost{background:#fff;color:var(--straw-deep);border:2px solid var(--straw);}
-.cert .sheet-card{border:5px double var(--pumpkin);}
-.cert-ribbon{
-  text-align:center;font-family:"Gochi Hand",cursive;color:var(--pumpkin);font-size:1.05rem;
-  letter-spacing:1px;margin:14px 0 -6px;text-transform:lowercase;
-}
-@media (max-width:520px){ .pals-grid{grid-template-columns:repeat(2,1fr);} .sheet{padding:12px 10px;} }
+
+/* homepage tap hint */
+.tap-hint{margin-top:14px;color:var(--straw-deep);font-family:"Gochi Hand",cursive;font-size:1.08rem;}
 
 /* footer */
 footer{text-align:center;padding-block:30px 46px;color:var(--ink-soft);}
@@ -228,6 +258,7 @@ footer .made{font-size:.92rem;}
   <p class="loc">made with love by julianne · fort myers, fl</p>
   <div class="scan-note hand">scanned your lil card? every piece has its own magic — find yours below!</div>
   <div class="searchbar"><input id="search" type="search" placeholder="find your piece… (try “cherry bomb”)" aria-label="search for your piece"></div>
+  <div class="tap-hint">✦ tap any piece to open its lil card ✦</div>
 </header>
 
 <section id="bracelets">
@@ -386,92 +417,150 @@ function card(item){
 /* ---- character sheet ---- */
 const ACCENT = {bracelets:"#e05585", spooky:"#6d5480", rings:"#9a77cf", jars:"#7fa354", pals:"#c98a4b"};
 const MARK = {bracelets:"♥", spooky:"☾", rings:"✦", jars:"✿", pals:"★"};
-const KIND = {bracelets:"crystal charm bracelet", spooky:"spooky season drop · limited", rings:"crystal ring", jars:"itty-bitty boost jar", pals:"gem pal"};
+const KIND = {bracelets:"crystal charm bracelet", spooky:"spooky season · limited", rings:"crystal ring", jars:"itty-bitty boost jar", pals:"gem pal"};
 function careNotes(item){
   if(item.cat==="jars") return ["a tiny jar of set intentions — keep it close (pocket, bag, altar, windowsill)",
     "every jar is mixed by hand by julianne","comes with its own lil card"];
-  if(item.cat==="pals") return ["every gem pal is a one-of-a-kind rock friend with googly eyes and big feelings",
+  if(item.cat==="pals") return ["a one-of-a-kind rock friend with googly eyes and big feelings",
     "comes with an official adoption card","treat with love. they know."];
   return ["handmade by julianne in fort myers, fl","stretchy cord — roll it gently over your hand, don't yank",
     "comes with its own meaning card","“even though something can break, it's worth taking time to fix” — free repairs, always ♥"];
+}
+function statusRows(item){
+  const rows = [["made by","julianne"]];
+  if(item.price) rows.push(["price", item.price]);
+  if(item.cat==="pals") rows.push(["adoption","open"],["googly eyes","secured"]);
+  else if(item.cat==="jars") rows.push(["mixed","by hand"],["intentions","set ♥"]);
+  else rows.push(["custom orders","just ask"],["repairs","free ♥"]);
+  return rows;
+}
+function mk(tag, cls, txt){
+  const e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(txt !== undefined) e.textContent = txt;
+  return e;
 }
 function openSheet(item){
   const sheet = document.getElementById("sheet");
   const card = document.getElementById("sheetcard");
   const acc = ACCENT[item.cat];
   card.textContent = "";
+  card.style.setProperty("--acc", acc);
   sheet.classList.toggle("cert", item.cat==="pals");
 
-  const close = document.createElement("button");
-  close.className="sheet-close"; close.textContent="×"; close.setAttribute("aria-label","close");
+  const close = mk("button","sheet-close","×");
+  close.setAttribute("aria-label","close");
   close.addEventListener("click", closeSheet);
   card.appendChild(close);
 
-  const banner = document.createElement("div");
-  banner.className="sheet-banner"; banner.style.background=acc;
-  const big = document.createElement("div"); big.className="big-ic";
-  if(item.ic && ICONS[item.ic]){ const im=document.createElement("img"); im.src=ICONS[item.ic]; im.alt=""; big.appendChild(im); }
-  else { big.textContent="✦"; big.style.color=acc; }
-  banner.appendChild(big);
-  const twrap = document.createElement("div");
-  const h = document.createElement("h2"); h.textContent = item.n; twrap.appendChild(h);
-  const k = document.createElement("div"); k.className="kind"; k.textContent = KIND[item.cat] + (item.price ? " · "+item.price : ""); twrap.appendChild(k);
-  banner.appendChild(twrap);
-  const mk = document.createElement("div"); mk.className="bigmark"; mk.textContent = MARK[item.cat]; banner.appendChild(mk);
-  card.appendChild(banner);
+  if(item.cat==="pals") card.appendChild(mk("div","cert-ribbon","⋆ official certificate of adoption ⋆"));
 
-  const body = document.createElement("div"); body.className="sheet-body";
-  if(item.cat==="pals"){
-    const rb = document.createElement("div"); rb.className="cert-ribbon";
-    rb.textContent = "⋆ official certificate of adoption ⋆"; body.appendChild(rb);
-  }
-  const magic = document.createElement("div"); magic.className="magic"; magic.innerHTML = item.d; body.appendChild(magic);
+  const grid = mk("div","sh-grid");
+  const main = mk("div","sh-main");
+  const side = mk("div","sh-side");
 
-  if(item.stones){
-    const h4 = document.createElement("h4"); h4.textContent="the stones"; body.appendChild(h4);
-    const st = document.createElement("div"); st.className="sheet-stones";
-    item.stones.split("·").forEach(s=>{ const sp=document.createElement("span"); sp.textContent=s.trim(); st.appendChild(sp); });
-    body.appendChild(st);
-  }
+  /* banner */
+  const banner = mk("div","sh-banner");
+  const bin = mk("div","sh-banner-in");
+  const ib = mk("div","sh-imgbox");
+  if(item.ic && ICONS[item.ic]){ const im=mk("img"); im.src=ICONS[item.ic]; im.alt=""; ib.appendChild(im); }
+  else ib.appendChild(mk("span","spark","✦"));
+  bin.appendChild(ib);
+  const info = mk("div","sh-info");
+  info.appendChild(mk("h2",null,item.n));
+  const meta = mk("div","meta");
+  meta.appendChild(document.createTextNode(KIND[item.cat]));
+  const sep = mk("span","sep","✦"); meta.appendChild(sep);
+  meta.appendChild(document.createTextNode("the starberry shop"));
+  info.appendChild(meta);
+  info.appendChild(mk("div","bigmark",MARK[item.cat]));
+  bin.appendChild(info);
+  banner.appendChild(bin);
+  main.appendChild(banner);
 
-  const h4n = document.createElement("h4"); h4n.textContent = item.cat==="pals" ? "adoption terms" : "please note"; body.appendChild(h4n);
-  const ul = document.createElement("ul");
-  careNotes(item).forEach(t=>{ const li=document.createElement("li"); li.textContent=t; ul.appendChild(li); });
-  body.appendChild(ul);
+  /* lore box — scrolls like the template */
+  const loreCard = mk("div","sh-card");
+  const lore = mk("div","sh-panel sh-scroll");
+  const h1 = mk("div","sh-h"); h1.appendChild(mk("span",null,"the magic")); h1.appendChild(mk("span","glyph","✧"));
+  lore.appendChild(h1);
+  const magic = mk("p","sh-magic"); magic.innerHTML = item.d; magic.style.margin="0";
+  lore.appendChild(magic);
+  lore.appendChild(mk("hr"));
+  const h2 = mk("div","sh-h"); h2.appendChild(mk("span",null,item.cat==="pals" ? "adoption terms" : "please note")); h2.appendChild(mk("span","glyph","✎"));
+  lore.appendChild(h2);
+  const ul = mk("ul");
+  careNotes(item).forEach(t=>ul.appendChild(mk("li",null,t)));
+  lore.appendChild(ul);
+  loreCard.appendChild(lore);
+  main.appendChild(loreCard);
 
-  const sibs = CATALOG.filter(x=>x.cat===item.cat && x.n!==item.n);
-  const idx = CATALOG.filter(x=>x.cat===item.cat).findIndex(x=>x.n===item.n);
-  const picks = [];
-  for(let i=0;i<sibs.length && picks.length<4;i++) picks.push(sibs[(idx+i)%sibs.length]);
-  if(picks.length){
-    const h4g = document.createElement("h4"); h4g.textContent="gets along with"; body.appendChild(h4g);
-    const grid = document.createElement("div"); grid.className="pals-grid";
-    picks.forEach(p=>{
-      const a = document.createElement("a"); a.href = "#"+slug(p.n);
-      a.addEventListener("click", e=>{ e.preventDefault(); history.replaceState(null,"","#"+slug(p.n)); openSheet(p); });
-      if(p.ic && ICONS[p.ic]){ const im=document.createElement("img"); im.src=ICONS[p.ic]; im.alt=""; a.appendChild(im); }
-      else { const sp=document.createElement("span"); sp.className="spark2"; sp.textContent="✦"; a.appendChild(sp); }
-      const nm=document.createElement("span"); nm.textContent=p.n; a.appendChild(nm);
-      grid.appendChild(a);
-    });
-    body.appendChild(grid);
-  }
-
-  const acts = document.createElement("div"); acts.className="sheet-actions";
-  const add = document.createElement("button");
-  const sync = ()=>{ add.textContent = order.has(item.n) ? "added! (tap to remove)" : (item.cat==="pals" ? "adopt me ♥" : "add to my order ♥"); };
+  /* status rows + buttons */
+  const statCard = mk("div","sh-card");
+  const stat = mk("div","sh-panel");
+  statusRows(item).forEach((r,i,arr)=>{
+    const row = mk("div","sh-row");
+    row.appendChild(mk("span",null,r[0]));
+    row.appendChild(mk("span","val",r[1]));
+    stat.appendChild(row);
+    if(i<arr.length-1) stat.appendChild(mk("hr"));
+  });
+  const add = mk("button","sh-btn");
+  const sync = ()=>{ add.textContent = order.has(item.n) ? "added ♥ (tap to remove)" : (item.cat==="pals" ? "adopt me ♥" : "add to my order ♥"); };
   sync();
   add.addEventListener("click", ()=>{
     const gridBtn = document.getElementById(slug(item.n))?.querySelector("button");
     if(gridBtn) toggle(item, gridBtn); else toggle(item, add);
     sync();
   });
-  acts.appendChild(add);
-  const back = document.createElement("button"); back.className="ghost"; back.textContent="see all the pieces";
+  stat.appendChild(add);
+  const back = mk("button","sh-btn ghost","see all the pieces");
   back.addEventListener("click", closeSheet);
-  acts.appendChild(back);
-  body.appendChild(acts);
-  card.appendChild(body);
+  stat.appendChild(back);
+  statCard.appendChild(stat);
+  main.appendChild(statCard);
+
+  /* side: featured tiles */
+  const sibsAll = CATALOG.filter(x=>x.cat===item.cat && x.n!==item.n);
+  const idx = CATALOG.filter(x=>x.cat===item.cat).findIndex(x=>x.n===item.n);
+  const picks = [];
+  for(let i=0;i<sibsAll.length && picks.length<4;i++) picks.push(sibsAll[(idx+i)%sibsAll.length]);
+  if(picks.length){
+    const tc = mk("div","sh-card");
+    const tp = mk("div","sh-panel");
+    const th = mk("div","sh-h"); th.appendChild(mk("span",null,"gets along with")); th.appendChild(mk("span","glyph","♡"));
+    tp.appendChild(th);
+    const tiles = mk("div","sh-tiles");
+    picks.forEach(p=>{
+      const a = mk("a","sh-tile"); a.href = "#"+slug(p.n);
+      a.addEventListener("click", e=>{ e.preventDefault(); history.replaceState(null,"","#"+slug(p.n)); openSheet(p); });
+      const tin = mk("div","sh-tile-in");
+      if(p.ic && ICONS[p.ic]){ const im=mk("img"); im.src=ICONS[p.ic]; im.alt=""; tin.appendChild(im); }
+      else tin.appendChild(mk("span","spark2","✦"));
+      tin.appendChild(mk("span","nm",p.n));
+      a.appendChild(tin);
+      tiles.appendChild(a);
+    });
+    tp.appendChild(tiles);
+    tc.appendChild(tp);
+    side.appendChild(tc);
+  }
+
+  /* side: stones */
+  if(item.stones){
+    const sc = mk("div","sh-card");
+    const sp = mk("div","sh-panel");
+    const sh = mk("div","sh-h"); sh.appendChild(mk("span",null,"the stones")); sh.appendChild(mk("span","glyph","◈"));
+    sp.appendChild(sh);
+    const st = mk("div","sh-stones");
+    item.stones.split("·").forEach(s=>st.appendChild(mk("span",null,s.trim())));
+    sp.appendChild(st);
+    sc.appendChild(sp);
+    side.appendChild(sc);
+  }
+
+  grid.appendChild(main);
+  grid.appendChild(side);
+  card.appendChild(grid);
 
   sheet.classList.add("open");
   document.body.style.overflow="hidden";
